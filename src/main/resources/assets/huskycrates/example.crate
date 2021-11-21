@@ -169,7 +169,7 @@ example{
         ticksToSelectionVariance=5
     }
     previewable=true
-    preview-left-click-command=/test
+    preview-left-click-command=help
 
     useLocalKey=true
     localKey {
