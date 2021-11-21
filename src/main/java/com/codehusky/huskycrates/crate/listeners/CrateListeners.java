@@ -7,6 +7,8 @@ import com.codehusky.huskycrates.crate.physical.PhysicalCrate;
 import com.codehusky.huskycrates.crate.virtual.Crate;
 import com.codehusky.huskycrates.crate.virtual.Key;
 import com.codehusky.huskycrates.event.CrateInjectionEvent;
+import org.apache.commons.lang3.StringUtils;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.data.Transaction;
 import org.spongepowered.api.data.key.Keys;
@@ -52,9 +54,14 @@ public class CrateListeners {
             if (HuskyCrates.registry.isPhysicalCrate(event.getTargetBlock().getLocation().get())) {
                 PhysicalCrate physicalCrate = HuskyCrates.registry.getPhysicalCrate(event.getTargetBlock().getLocation().get());
                 if(physicalCrate.getCrate().isPreviewable()){
-                    if(!player.hasPermission("huskycrates.admin") || player.getOrNull(Keys.GAME_MODE) != GameModes.CREATIVE){
-                        physicalCrate.getCrate().launchPreview(player);
+                    if (!StringUtils.isBlank(physicalCrate.getCrate().getPreviewCommand())) {
+                        Sponge.getCommandManager().process(physicalCrate.getCrate().isUseConsole() ? Sponge.getServer().getConsole() : player, physicalCrate.getCrate().getPreviewCommand());
                         event.setCancelled(true);
+                    } else {
+                        if (!player.hasPermission("huskycrates.admin") || player.getOrNull(Keys.GAME_MODE) != GameModes.CREATIVE) {
+                            physicalCrate.getCrate().launchPreview(player);
+                            event.setCancelled(true);
+                        }
                     }
                 }
             }

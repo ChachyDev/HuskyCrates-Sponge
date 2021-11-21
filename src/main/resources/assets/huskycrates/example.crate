@@ -169,6 +169,8 @@ example{
         ticksToSelectionVariance=5
     }
     previewable=true
+    preview-left-click-command=/test
+
     useLocalKey=true
     localKey {
         id="minecraft:tripwire_hook"

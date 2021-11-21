@@ -5,7 +5,6 @@ import com.codehusky.huskycrates.exception.ConfigParseError;
 import com.codehusky.huskycrates.exception.InjectionDataError;
 import com.flowpowered.math.vector.Vector3d;
 import com.google.common.reflect.TypeToken;
-import com.sun.istack.internal.NotNull;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.spongepowered.api.Sponge;
@@ -17,6 +16,7 @@ import org.spongepowered.api.util.Color;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import javax.annotation.Nonnull;
 import javax.script.*;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -36,7 +36,7 @@ public class Particle {
     private ArrayList<ParticleEffect> palette = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> art = new ArrayList<>();
 
-    public Particle(@NotNull ParticleEffect particle, int amount, int quantity, Vector3d offset, Vector3d position, String animationPreset, String colorPreset, Boolean animateColor, String animationCode){
+    public Particle(@Nonnull ParticleEffect particle, int amount, int quantity, Vector3d offset, Vector3d position, String animationPreset, String colorPreset, Boolean animateColor, String animationCode){
         this.particle = particle;
         this.amount = amount;
         this.quantity = quantity;

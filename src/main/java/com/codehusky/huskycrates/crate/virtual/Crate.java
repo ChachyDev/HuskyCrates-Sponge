@@ -79,6 +79,10 @@ public class Crate {
 
     private Messages messages;
     private boolean injection;
+
+    private String previewCommand;
+    private boolean useConsole;
+
     public Crate(ConfigurationNode node){
         if(!node.hasMapChildren()){
             throw new ConfigParseError("Invalid data in crates.conf. Please remove it.",node.getPath());
@@ -198,8 +202,9 @@ public class Crate {
 
         this.previewable = node.getNode("previewable").getBoolean(false);
         this.previewShowsRewardCount = node.getNode("previewShowsRewardCount").getBoolean(true);
+        this.previewCommand = node.getNode("preview-left-click-command").getString();
     }
-    public Crate(String id, String name, Hologram hologram, Effect idleEffect, Effect rejectEffect, Effect winEffect, Effect openEffect, List<Slot> slots, boolean scrambleSlots, boolean free, boolean previewable, boolean previewRewardCount, long cooldownSeconds, boolean useLocalKey, Key localKey, HashMap<String, Integer> acceptedKeys, ViewType viewType, ViewConfig viewConfig){
+    public Crate(String id, String name, Hologram hologram, Effect idleEffect, Effect rejectEffect, Effect winEffect, Effect openEffect, List<Slot> slots, boolean scrambleSlots, boolean free, boolean previewable, boolean previewRewardCount, long cooldownSeconds, boolean useLocalKey, Key localKey, HashMap<String, Integer> acceptedKeys, ViewType viewType, ViewConfig viewConfig, String previewCommand, boolean useConsole){
         this.id = id;
         this.name = name;
         this.hologram = hologram;
@@ -225,12 +230,14 @@ public class Crate {
         this.acceptedKeys = acceptedKeys;
         this.viewType = viewType;
         this.viewConfig = viewConfig;
+        this.previewCommand = previewCommand;
+        this.useConsole = useConsole;
     }
 
     public Crate getScrambledCrate() {
         ArrayList<Slot> newSlots = new ArrayList<>(slots);
         Collections.shuffle(newSlots);
-        return new Crate(id,name,hologram,idleEffect,rejectEffect,winEffect,openEffect,newSlots,scrambleSlots,free,previewable,previewShowsRewardCount,cooldownSeconds,useLocalKey,localKey,acceptedKeys,viewType,viewConfig);
+        return new Crate(id,name,hologram,idleEffect,rejectEffect,winEffect,openEffect,newSlots,scrambleSlots,free,previewable,previewShowsRewardCount,cooldownSeconds,useLocalKey,localKey,acceptedKeys,viewType,viewConfig, previewCommand, useConsole);
     }
     public boolean isScrambled() {
         return this.scrambleSlots;
@@ -433,6 +440,14 @@ public class Crate {
 
     public Messages getMessages() {
         return messages;
+    }
+
+    public String getPreviewCommand() {
+        return previewCommand;
+    }
+
+    public boolean isUseConsole() {
+        return useConsole;
     }
 
     public long getCooldownSeconds(Player player){
